@@ -116,13 +116,26 @@ void filter(VectorXd &x, MatrixXd &P) {
 
 		VectorXd z = measurements[n];
 		//YOUR CODE HERE
-		
-		// KF Measurement update step
-		 
-		// new state
-		
-		// KF Prediction step
-		
+		/*
+		 * KF Measurement update step
+		 */
+		VectorXd y = z - H * x;
+		MatrixXd Ht = H.transpose();
+		MatrixXd S = H * P * Ht + R;
+		MatrixXd Si = S.inverse();
+		MatrixXd K =  P * Ht * Si;
+
+		//new state
+		x = x + (K * y);
+		P = (I - K * H) * P;
+
+		/*
+		 * KF Prediction step
+		 */
+		x = F * x + u;
+		MatrixXd Ft = F.transpose();
+		P = F * P * Ft + Q;
+
 		std::cout << "x=" << std::endl <<  x << std::endl;
 		std::cout << "P=" << std::endl <<  P << std::endl;
 
