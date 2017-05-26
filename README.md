@@ -13,6 +13,9 @@ Self-Driving Car Engineer Nanodegree Program
 * update - the filter compares the "predicted" location with what the sensor measurement says. The predicted location and the measured location are combined to give an updated location. The Kalman filter will put more weight on either the predicted location or the measured location depending on the uncertainty of each value.
 * then the car will receive another sensor measurement after a time period Δt. The algorithm then does another predict and update step.
 
+### The algorithm for kalman filtering is the following:
+![png](algorithm.png)
+
 
 ---
 
