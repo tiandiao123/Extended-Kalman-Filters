@@ -2,7 +2,7 @@
 // dimensional Kalman Filter for the example given
 //============================================================================
 #include <iostream>
-#include "Dense"
+#include "../Eigen/Dense"
 #include <vector>
 
 using namespace std;
