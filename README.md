@@ -3,9 +3,15 @@ Self-Driving Car Engineer Nanodegree Program
 
 ## Description of the project
 
-### what is kalman fileter:
+### what is kalman fileter in the self-driving car:
 ![png](kalman.png)
 
+(1)first measurement - the filter will receive initial measurements of the bicycle's position relative to the car. These measurements will come from a radar or lidar sensor.
+(2)initialize state and covariance matrices - the filter will initialize the bicycle's position based on the first measurement.
+(3)then the car will receive another sensor measurement after a time period Δt.
+(4)predict - the algorithm will predict where the bicycle will be after time Δt. One basic way to predict the bicycle location after Δt is to assume the bicycle's velocity is constant; thus the bicycle will have moved velocity * Δt. In the extended Kalman filter lesson, we will assume the velocity is constant; in the unscented Kalman filter lesson, we will introduce a more complex motion model.
+(5)update - the filter compares the "predicted" location with what the sensor measurement says. The predicted location and the measured location are combined to give an updated location. The Kalman filter will put more weight on either the predicted location or the measured location depending on the uncertainty of each value.
+(6)then the car will receive another sensor measurement after a time period Δt. The algorithm then does another predict and update step.
 
 
 ---
