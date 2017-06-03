@@ -16,6 +16,9 @@ Self-Driving Car Engineer Nanodegree Program
 ### The algorithm for kalman filtering is the following:
 ![png](algorithm.png)
 
+### The Extended algorithms are used to handle non-linear Radar transformation:
+![png](extended.png)
+
 ### How to test my C++ impelmentation:
 * Download [Simulator](https://github.com/udacity/self-driving-car-sim/releases/)
 * Secondly, type the following commands in the terminal:
