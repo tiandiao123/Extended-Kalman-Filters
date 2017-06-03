@@ -2,7 +2,7 @@
 
 ### Description of the project
 * This project is used to apply extended kalman filter to track vehicles' movements based on its radar and lidar's information. 
-* utilize simulator to test impelmented kalman filter algorithms to confirm our algorithms are correct. 
+* utilize self-driving cars' simulator to test impelmented kalman filter algorithms to confirm the correctness of the algorithms. 
 
 ### what is kalman fileter in the self-driving car:
 ![png](kalman.png)
