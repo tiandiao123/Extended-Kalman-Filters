@@ -19,6 +19,7 @@ FusionEKF::FusionEKF() {
   // initializing matrices
   R_laser_ = MatrixXd(2, 2);
   R_radar_ = MatrixXd(3, 3);
+
   H_laser_ = MatrixXd(2, 4);
   H_laser_<<1,0,0,0,
             0,1,0,0;
@@ -45,7 +46,7 @@ FusionEKF::FusionEKF() {
   kf_.F_ = MatrixXd(4, 4);
   kf_.F_ << 1, 0, 1, 0,
         0, 1, 0, 1,
-        0, 0, 1, 0,
+        0, 1, 1, 0,
         0, 0, 0, 1;
 
 
@@ -85,15 +86,18 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], measurement_pack.raw_measurements_[2], 0;
+      ekf_.H_=Hj_;
+      ekf_.R_=R_radar_;
 
       previous_timestamp_ = measurement_pack.timestamp_;
     }else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
       Initialize state.
       */
-      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], measurement_pack.raw_measurements_[2], 0;
-
+      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+      ekf_.H_=H_laser_;
+      ekf_.R_=R_laser_;
       previous_timestamp_ = measurement_pack.timestamp_;
     }
 
