@@ -46,7 +46,7 @@ FusionEKF::FusionEKF() {
   kf_.F_ = MatrixXd(4, 4);
   kf_.F_ << 1, 0, 1, 0,
         0, 1, 0, 1,
-        0, 1, 1, 0,
+        0, 0, 1, 0,
         0, 0, 0, 1;
 
 
@@ -86,7 +86,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], measurement_pack.raw_measurements_[2], 0;
+      double cosval=cos(measurement_pack.raw_measurements_[1]);
+      double sinval=sin(measurement_pack.raw_measurements_[1])z
+      ekf_.x_ << measurement_pack.raw_measurements_[0]*cosval, measurement_pack.raw_measurements_[0]*sinval, 0, 0;
+      Hj_=tool(ekf_.x_);
       ekf_.H_=Hj_;
       ekf_.R_=R_radar_;
 
@@ -109,8 +112,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /*****************************************************************************
    *  Prediction
    ****************************************************************************/
-     float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
- 	   previous_timestamp_ = measurement_pack.timestamp_;
+    float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
+ 	  previous_timestamp_ = measurement_pack.timestamp_;
 
     float dt_2 = dt * dt;
   	float dt_3 = dt_2 * dt;
@@ -127,6 +130,15 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Update the process noise covariance matrix.
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
+  noise_ax = 9;
+	noise_ay = 9;
+  kf_.Q_ = MatrixXd(4, 4);
+	kf_.Q_ <<  dt_4/4*noise_ax, 0, dt_3/2*noise_ax, 0,
+			   0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
+			   dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
+			   0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
+
+ 
 
   ekf_.Predict();
 
@@ -141,6 +153,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
+    ekf_.H_=tools(ekf_.x_);
     ekf_.Update(measurement_pack.raw_measurements_);
   } else {
     // Laser updates
