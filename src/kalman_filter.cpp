@@ -57,8 +57,8 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     * update the state by using Extended Kalman Filter equations
   */
   double z1=sqrt(x_[0]*x_[0]+x_[1]*x_[1]);
-  double z2=atan2(x[0]/x[1]);
-  double z3=(x[0]*x[2]+x[1]*x[3])/sqrt(x[0]*x[0]+x[1]*x[1]);
+  double z2=atan(x_[0]/x_[1]);
+  double z3=(x_[0]*x_[2]+x_[1]*x_[3])/sqrt(x_[0]*x_[0]+x_[1]*x_[1]);
 
   VectorXd z_pred(3);
   z_pred << z1,z2,z3;
