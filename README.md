@@ -17,13 +17,14 @@ Self-Driving Car Engineer Nanodegree Program
 ![png](algorithm.png)
 
 ### How to test my C++ impelmentation:
-* Download and Open [Simulator](https://github.com/udacity/self-driving-car-sim/releases/) to see my algorithms performance 
+* Download [Simulator](https://github.com/udacity/self-driving-car-sim/releases/)
 * Secondly, type the following commands in the terminal:
 ```
 mkdir build && cd build
 cmake .. && make
 ./ExtendedKF
 ```
+* Open simulator to see my algorithms' performance
 
 ### Environment setting and software installation
 
