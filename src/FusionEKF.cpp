@@ -40,7 +40,7 @@ FusionEKF::FusionEKF() {
     * Set the process and measurement noises
   */
 
-  ekf_.x_=VectorXd(4);
+  //ekf_.x_=VectorXd(4);
 
   //the initial transition matrix F_
   ekf_.F_ = MatrixXd(4, 4);
@@ -154,10 +154,15 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
     ekf_.H_=tools.CalculateJacobian(ekf_.x_);
-    ekf_.Update(measurement_pack.raw_measurements_);
+    VectorXd z=VectorXd(3);
+    z << measurement_pack.raw_measurements_[0],measurement_pack.raw_measurements_[1],measurement_pack.raw_measurements_[2];
+    ekf_.Update(z);
   } else {
     // Laser updates
-    ekf_.UpdateEKF(measurement_pack.raw_measurements_);
+    ekf_.H_=H_laser_;
+    VectorXd z=VectorXd(2);
+    z << measurement_pack.raw_measurements_[0],measurement_pack.raw_measurements_[1];
+    ekf_.UpdateEKF(z);
   }
 
   // print the output
